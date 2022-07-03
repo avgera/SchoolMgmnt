@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchollMgmnt.Console", "SchollMgmnt.Console\SchollMgmnt.Console.csproj", "{DAD7806F-358A-45EF-BF0E-B2067863F043}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchollMgmnt.Console", "SchoolMgmnt.Console\SchoolMgmnt.Console.csproj", "{DAD7806F-358A-45EF-BF0E-B2067863F043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMgmnt.Models", "SchoolMgmnt.Models\SchoolMgmnt.Models.csproj", "{60146D1A-1D76-45FE-B011-36661C1FA679}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{DAD7806F-358A-45EF-BF0E-B2067863F043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD7806F-358A-45EF-BF0E-B2067863F043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD7806F-358A-45EF-BF0E-B2067863F043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60146D1A-1D76-45FE-B011-36661C1FA679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60146D1A-1D76-45FE-B011-36661C1FA679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60146D1A-1D76-45FE-B011-36661C1FA679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60146D1A-1D76-45FE-B011-36661C1FA679}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
