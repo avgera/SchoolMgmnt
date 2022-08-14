@@ -1,11 +1,14 @@
+using System.Text.Json.Serialization;
+
 namespace SchoolMgmnt.Models;
 
 public class School
 {
     public string Name { get; set; }
     public Address Address { get; set; }
-    public DateOnly OpeningDate { get; set; }
+    public DateTime OpeningDate { get; set; }
 
+    [JsonIgnore]
     public IEnumerable<Room> Rooms
     {
         get
@@ -19,6 +22,7 @@ public class School
         }
     }
 
+    [JsonIgnore]
     public Employee? Director
     {
         get
@@ -34,17 +38,25 @@ public class School
         }
     }
 
-    private readonly List<Floor> _floors = new();
+    private readonly List<Floor> _floors;
     public IEnumerable<Floor> Floors => _floors;
 
-    private readonly List<Employee> _employees = new();
+    private readonly List<Employee> _employees;
     public IEnumerable<Employee> Employees => _employees;
 
     public School(string name, Address address, DateOnly openingDate)
+        : this(name, address, openingDate.ToDateTime(TimeOnly.MinValue), new List<Floor>(), new List<Employee>())
+    {
+    }
+
+    [JsonConstructor]
+    public School(string name, Address address, DateTime openingDate, IEnumerable<Floor> floors, IEnumerable<Employee> employees)
     {
         Name = name;
         Address = address;
         OpeningDate = openingDate;
+        _floors = floors.ToList();
+        _employees = employees.ToList();
     }
 
     public void AddFloor(Floor floor)
@@ -141,6 +153,10 @@ public class School
 
     public void Print()
     {
+        Console.WriteLine();
+        Console.WriteLine($"School {Name}:");
+        Console.WriteLine($"Total floors: {Floors.Count()}:");
+        Console.WriteLine($"Total rooms: {Rooms.Count()}:");
         Console.WriteLine();
         Console.WriteLine($"==========Rooms==========");
         foreach (Floor floor in _floors)

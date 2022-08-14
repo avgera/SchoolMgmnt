@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SchoolMgmnt.Models\SchoolMgmnt.Models.csproj" />
+    <ProjectReference Include="..\SchoolMgmnt.Data\SchoolMgmnt.Data.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,10 +1,11 @@
+using SchoolMgmnt.Data;
 using SchoolMgmnt.Models;
 
 namespace SchoolMgmnt;
 
 public static class ConsoleHelpers
 {
-    public static void ShowMenu(School? school)
+    public static void ShowMenu(Context ctx)
     {
         Console.WriteLine();
         Console.WriteLine("What do you want to perform?");
@@ -12,6 +13,7 @@ public static class ConsoleHelpers
         Dictionary<MenuItems, string> menuItems = new()
         {
             { MenuItems.AddSchool, "Create school" },
+            { MenuItems.SelectSchool, "Select school" },
             { MenuItems.AddFloor, "Add floor to the school" },
             { MenuItems.AddRoom, "Add room to the floor" },
             { MenuItems.AddEmployee, "Add employee" },
@@ -21,10 +23,7 @@ public static class ConsoleHelpers
 
         foreach (var item in menuItems)
         {
-            if (item.Key != MenuItems.AddSchool || school is null)
-            {
-                Console.WriteLine($"{(int)item.Key}: {item.Value}");
-            }
+            Console.WriteLine($"{(int)item.Key}: {item.Value}");
         }
     }
 
@@ -34,7 +33,6 @@ public static class ConsoleHelpers
             ? choice
             : (MenuItems?)null;
     }
-
 
     public static string GetValueFromConsole(string message)
     {
@@ -66,7 +64,6 @@ public static class ConsoleHelpers
         }
         return intValue;
     }
-
 
     public static RoomType GetRoomTypeFromConsole(string message)
     {

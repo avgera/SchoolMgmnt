@@ -1,13 +1,21 @@
 ﻿using SchoolMgmnt;
+using SchoolMgmnt.Data;
+using SchoolMgmnt.Data.Repositories;
 using SchoolMgmnt.Models;
 
 using static SchoolMgmnt.ConsoleHelpers;
 
 Console.WriteLine("Welcome to the School Management System!");
 
+Context Ctx = new();
+
+var filePath = GetFilePath();
+
+SchoolRepository schoolRepository = new(Ctx, filePath);
+
 while (true)
 {
-    ShowMenu(Context.School);
+    ShowMenu(Ctx);
 
     var choise = GetMenuChoice();
 
@@ -33,6 +41,9 @@ void HandleChoice(MenuItems? choice)
         case MenuItems.AddSchool:
             AddSchool();
             break;
+        case MenuItems.SelectSchool:
+            SelectSchool();
+            break;
         case MenuItems.AddFloor:
             AddFloor();
             break;
@@ -44,7 +55,10 @@ void HandleChoice(MenuItems? choice)
             break;
         case MenuItems.ShowAll:
             // show all
-            Context.School?.Print();
+            foreach (var school in Ctx.Schools)
+            {
+                school.Print();
+            }
             break;
         default:
             Console.WriteLine("Unknown choice");
@@ -62,31 +76,52 @@ void AddSchool()
 
     School school = new(name, address, openingDate);
 
-    Context.School = school;
+    schoolRepository.AddSchool(school);
 
     Console.WriteLine();
     Console.WriteLine($"School '{school.Name}' successfully added");
     school.Print();
     Console.WriteLine();
+
+    Address GetSchoolAddress()
+    {
+        var country = GetValueFromConsole("Enter school country: ");
+        var city = GetValueFromConsole("Enter school city or town: ");
+        var street = GetValueFromConsole("Enter school street: ");
+        var postalCode = GetIntValueFromConsole("Enter school postal code: ");
+
+        return new(country, city, street, postalCode);
+    }
 }
 
-Address GetSchoolAddress()
+void SelectSchool()
 {
-    var country = GetValueFromConsole("Enter school country: ");
-    var city = GetValueFromConsole("Enter school city or town: ");
-    var street = GetValueFromConsole("Enter school street: ");
-    var postalCode = GetIntValueFromConsole("Enter school postal code: ");
+    var schools = schoolRepository.GetSchools().ToArray();
 
-    return new(country, city, street, postalCode);
+    while (true)
+    {
+        for (var i = 0; i < schools.Length; i++)
+        {
+            Console.WriteLine($"{i}: {schools[i].Name}");
+        }
+        var schoolIndex = GetIntValueFromConsole("Choose school: ");
+
+        if (schoolIndex < schools.Length)
+        {
+            schoolRepository.SetCurrentSchool(schools[schoolIndex]);
+            break;
+        }
+        Console.WriteLine("Please choose correct number from the list above.");
+    }
 }
 
 void AddFloor()
 {
     var floorNumber = GetIntValueFromConsole("Enter floor number: ");
-    Floor floor = new(floorNumber);
 
-    Context.School?.AddFloor(floor);
-    Context.School?.Print();
+    schoolRepository.AddFloorToCurrentSchool(new(floorNumber));
+
+    Ctx.CurrentSchool?.Print();
     Console.WriteLine();
 }
 
@@ -95,8 +130,8 @@ void AddRoom()
     while (true)
     {
         var floorNumber = GetIntValueFromConsole("Enter floor number: ");
-        var floor = Context.School?.Floors.FirstOrDefault(f => f.Number == floorNumber);
 
+        var floor = schoolRepository.GetFloor(floorNumber);
         if (floor is null)
         {
             Console.WriteLine($"Floor {floorNumber} does not exists. Either add new floor or enter correct floor number");
@@ -106,11 +141,11 @@ void AddRoom()
         var roomNumber = GetIntValueFromConsole("Enter room number: ");
         var roomType = GetRoomTypeFromConsole("Enter room type: ");
 
-        floor.AddRoom(new(roomNumber, roomType, floor));
+        schoolRepository.AddRoomToCurrentSchool(new(roomNumber, roomType, floor), floor);
         break;
     }
 
-    Context.School?.Print();
+    Ctx.CurrentSchool?.Print();
     Console.WriteLine();
 }
 
@@ -126,12 +161,12 @@ void AddEmployee()
 
         if (type == "T")
         {
-            Context.School?.AddTeacher(firstName, lastName, age);
+            Ctx.CurrentSchool?.AddTeacher(firstName, lastName, age);
             break;
         }
         else if (type == "D")
         {
-            Context.School?.AddDirector(firstName, lastName, age);
+            Ctx.CurrentSchool?.AddDirector(firstName, lastName, age);
             break;
         }
         else
@@ -140,6 +175,15 @@ void AddEmployee()
         }
     }
 
-    Context.School?.Print();
+    Ctx.CurrentSchool?.Print();
     Console.WriteLine();
+}
+
+string GetFilePath()
+{
+    var fileName = GetValueFromConsole("Enter storage file name: ");
+    var desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+    var fullPath = Path.Combine(desktopFolder, fileName);
+
+    return fullPath;
 }
