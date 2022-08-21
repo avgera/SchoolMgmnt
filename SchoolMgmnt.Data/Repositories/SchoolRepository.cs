@@ -19,6 +19,11 @@ public class SchoolRepository
 
     private void LoadData()
     {
+        if (!File.Exists(_fileName))
+        {
+            return;
+        }
+
         var content = File.ReadAllText(_fileName);
         if (string.IsNullOrEmpty(content))
         {
