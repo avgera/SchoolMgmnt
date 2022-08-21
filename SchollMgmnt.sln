@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchollMgmnt.Console", "Scho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMgmnt.Models", "SchoolMgmnt.Models\SchoolMgmnt.Models.csproj", "{60146D1A-1D76-45FE-B011-36661C1FA679}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMgmnt.Data", "SchoolMgmnt.Data\SchoolMgmnt.Data.csproj", "{B6451AA7-CFFE-4963-A76A-4A188E739A68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{60146D1A-1D76-45FE-B011-36661C1FA679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60146D1A-1D76-45FE-B011-36661C1FA679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60146D1A-1D76-45FE-B011-36661C1FA679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6451AA7-CFFE-4963-A76A-4A188E739A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6451AA7-CFFE-4963-A76A-4A188E739A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6451AA7-CFFE-4963-A76A-4A188E739A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6451AA7-CFFE-4963-A76A-4A188E739A68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
