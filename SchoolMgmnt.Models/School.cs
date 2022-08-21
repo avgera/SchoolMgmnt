@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SchoolMgmnt.Models;
 
@@ -73,42 +73,17 @@ public class School
         _floors.Add(floor);
     }
 
-    public void AddDirector(string firstName, string lastName, int age)
+    public void AddEmployee(Employee employee)
     {
-        Console.WriteLine($"Adding director {firstName} {lastName} with age {age}");
-        try
-        {
-            var director = new Director(firstName, lastName, age);
-            if (director is Director && Director is not null)
-            {
-                Console.WriteLine("*The director already exists*");
-                Console.WriteLine("---------------------------------------------");
-                return;
-            }
+        Console.WriteLine($"Employee {employee.Job} {employee.FirstName} {employee.LastName} with age {employee.Age}");
 
-            AddEmployee(director);
-        }
-        catch (Exception ex)
+        if (employee is Director && Director is not null)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine("The director already exists*");
+            Console.WriteLine("---------------------------------------------");
+            return;
         }
-    }
 
-    public void AddTeacher(string firstName, string lastName, int age)
-    {
-        Console.WriteLine($"Adding teacher {firstName} {lastName} with age {age}");
-        try
-        {
-            AddEmployee(new Teacher(firstName, lastName, age));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
-
-    private void AddEmployee(Employee employee)
-    {
         if (string.IsNullOrEmpty(employee.FirstName))
         {
             Console.WriteLine("First name is not provided");
@@ -154,11 +129,12 @@ public class School
     public void Print()
     {
         Console.WriteLine();
+        Console.WriteLine("------------------------------------------------------------------------------------------");
         Console.WriteLine($"School {Name}:");
         Console.WriteLine($"Total floors: {Floors.Count()}:");
         Console.WriteLine($"Total rooms: {Rooms.Count()}:");
         Console.WriteLine();
-        Console.WriteLine($"==========Rooms==========");
+        Console.WriteLine("==========Rooms==========");
         foreach (Floor floor in _floors)
         {
             floor.Print();
@@ -170,5 +146,6 @@ public class School
         {
             employee.Print();
         }
+        Console.WriteLine("------------------------------------------------------------------------------------------");
     }
 }

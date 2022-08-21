@@ -161,12 +161,12 @@ void AddEmployee()
 
         if (type == "T")
         {
-            Ctx.CurrentSchool?.AddTeacher(firstName, lastName, age);
+            schoolRepository.AddEmployeeToCurrentSchool(new Teacher(firstName, lastName, age));
             break;
         }
         else if (type == "D")
         {
-            Ctx.CurrentSchool?.AddDirector(firstName, lastName, age);
+            schoolRepository.AddEmployeeToCurrentSchool(new Director(firstName, lastName, age));
             break;
         }
         else

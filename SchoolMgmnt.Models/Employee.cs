@@ -1,5 +1,11 @@
+using JsonSubTypes;
+using Newtonsoft.Json;
+
 namespace SchoolMgmnt.Models;
 
+[JsonConverter(typeof(JsonSubtypes), "Job")]
+[JsonSubtypes.KnownSubType(typeof(Teacher), nameof(Teacher))]
+[JsonSubtypes.KnownSubType(typeof(Director), nameof(Director))]
 public abstract class Employee : Person
 {
     protected Employee(string firstName, string lastName, int age)

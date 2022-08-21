@@ -1,5 +1,5 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
+using Newtonsoft.Json;
 using SchoolMgmnt.Models;
 
 namespace SchoolMgmnt.Data.Repositories;
@@ -30,7 +30,7 @@ public class SchoolRepository
             return;
         }
 
-        var ctx = JsonSerializer.Deserialize<Context>(content);
+        var ctx = JsonConvert.DeserializeObject<Context>(content);
         if (ctx is null)
         {
             return;
@@ -83,12 +83,18 @@ public class SchoolRepository
         SaveContext();
     }
 
+    public void AddEmployeeToCurrentSchool(Employee employee)
+    {
+        _ctx.CurrentSchool?.AddEmployee(employee);
+        SaveContext();
+    }
+
     private void SaveContext()
     {
-        var json = JsonSerializer.Serialize(_ctx, new JsonSerializerOptions
+        var json = JsonConvert.SerializeObject(_ctx, new JsonSerializerSettings
         {
-            WriteIndented = true,
-            ReferenceHandler = ReferenceHandler.IgnoreCycles
+            Formatting = Formatting.Indented,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         });
         File.WriteAllText(_fileName, json);
     }
